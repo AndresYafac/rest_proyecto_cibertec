@@ -16,8 +16,12 @@ import org.apache.commons.logging.LogFactory;
 
 import com.example.rest.entidades.Cliente;
 import com.example.rest.entidades.TipoDeReclamo;
+import com.example.rest.entidades.Marca;
+import com.example.rest.entidades.Producto;
 import com.example.rest.dao.TipoDeReclamoModel;
+import com.example.rest.dao.MarcaModel;
 import com.example.rest.dao.ClienteModel;
+import com.example.rest.dao.ProductoModel;
 
 @Path("/servicios")
 @Produces({ MediaType.APPLICATION_JSON })
@@ -27,6 +31,8 @@ public class ServicioRest {
 
 	private TipoDeReclamoModel daoTipo = new TipoDeReclamoModel();
 	private ClienteModel daoCli = new ClienteModel();
+	private ProductoModel daoPro = new ProductoModel();
+	private MarcaModel daoMarca = new MarcaModel();
 
 
 	// Crud de tipoReclamo
@@ -87,7 +93,7 @@ public class ServicioRest {
 	@PUT
 	@Path("/cliente")
 	public Response atualizatipocliente(Cliente obj) {
-		log.info("Actualiza tiporeclamo " + obj.getIdCliente());
+		log.info("Actualiza cliente " + obj.getIdCliente());
 		if (daoCli.actualizacliente(obj) > 0)
 			return Response.ok().build();
 		else
@@ -102,4 +108,78 @@ public class ServicioRest {
 		else
 			return Response.notModified().build();
 	}
+
+// Crud de producto
+
+@GET
+@Path("/producto")
+public Response listarproductoTodos() {
+	log.info("listar producto rest ");
+	return Response.ok(daoPro.listarproductoTodos()).build();
+}
+@POST
+@Path("/producto")
+public Response registraproducto(Producto obj) {
+	log.info("Registra producto " + obj.getIdProducto());
+	if (daoPro.insertaproducto(obj) > 0)
+		return Response.ok().build();
+	else
+		return Response.notModified().build();
+}
+@PUT
+@Path("/producto")
+public Response atualizatipoproducto(Producto obj) {
+	log.info("Actualiza producto " + obj.getIdProducto());
+	if (daoPro.actualizaproducto(obj) > 0)
+		return Response.ok().build();
+	else
+		return Response.notModified().build();
+}
+@DELETE
+@Path("/producto/{idproducto}")
+public Response eliminaproducto(@PathParam("idProducto") int id) {
+	log.info("Elimina producto " + id);
+	if (daoPro.eliminaproducto(id) > 0)
+		return Response.ok().build();
+	else
+		return Response.notModified().build();
+}
+//Crud de Marca
+	@GET
+	@Path("/marca")
+	public Response listarMarcaTodos() {
+		log.info("listars marca rest ");
+		return Response.ok(daoMarca.listarMarcaTodos()).build();
+	}
+
+	@POST
+	@Path("/marca")
+	public Response registraMarca(Marca obj) {
+		log.info("Registra marca " + obj.getIdMarca());
+		if (daoMarca.insertaMarca(obj) > 0)
+			return Response.ok().build();
+		else
+			return Response.notModified().build();
+	}
+
+	@PUT
+	@Path("/marca")
+	public Response atualizaMarca(Marca obj) {
+		log.info("Actualiza marca " + obj.getIdMarca());
+		if (daoMarca.actualizaMarca(obj) > 0)
+			return Response.ok().build();
+		else
+			return Response.notModified().build();
+	}
+
+	@DELETE
+	@Path("/marca/{idMarca}")
+	public Response eliminaMarca(@PathParam("idMarca") int id) {
+		log.info("Elimina usuario " + id);
+		if (daoMarca.eliminaMarca(id) > 0)
+			return Response.ok().build();
+		else
+			return Response.notModified().build();
+	}
+
 }
